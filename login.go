@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -10,13 +11,13 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	if !verifyUser(username) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(f(`User "%s" does not exist`, username)))
+		fmt.Fprintf(w, "User \"%s\" does not exist\n", username)
 		return
 	}
 
 	if !verifyPassword(username, password) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(f(`Password "%s" is incorrect`, password)))
+		fmt.Fprintf(w, "Password \"%s\" is incorrect\n", password)
 		return
 	}
 
@@ -30,7 +31,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 	})
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(f(`Successfully logged in as "%s"!`, username)))
+	fmt.Fprintf(w, "Successfully logged in as \"%s\"!\n", username)
 }
 
 func verifyUser(username string) bool {

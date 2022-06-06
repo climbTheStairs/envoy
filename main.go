@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-const webroot = "/home/stairs/share/envoy/srv"
+const webroot = "share/srv"
 const defaultMimeType = "application/octet-stream"
 var mimeTypes = map[string]string{
 	"html": "text/html",
@@ -45,11 +45,11 @@ func servePage(w http.ResponseWriter, r *http.Request) {
 	f, err := os.ReadFile(url)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		msg := fmt.Sprintf("%d %s %s\n",
+		fmt.Fprintf(w,
+			"%d %s %s\n",
 			http.StatusNotFound,
 			http.StatusText(http.StatusNotFound),
 			r.RequestURI)
-		w.Write([]byte(msg))
 		return
 	}
 
