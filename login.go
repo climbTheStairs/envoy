@@ -83,23 +83,22 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", 302)
 }
 
-func verifyUserAndGetUsername(r *http.Request) (username string) {
-	var password string
+func verifyUserAndGetUsername(r *http.Request) string {
 	// The only error that r.Cookie can return is http.ErrNoCookie
 	usernameCookie, err := r.Cookie("username")
 	if errors.Is(err, http.ErrNoCookie) {
-		return
+		return ""
 	}
 	passwordCookie, err := r.Cookie("password")
 	if errors.Is(err, http.ErrNoCookie) {
-		return
+		return ""
 	}
-	username = usernameCookie.Value
-	password = passwordCookie.Value
-	if verifyPassword(username, password) {
-		return
+	username := usernameCookie.Value
+	password := passwordCookie.Value
+	if !verifyPassword(username, password) {
+		return ""
 	}
-	return ""
+	return username
 }
 
 func verifyUsername(username string) bool {
