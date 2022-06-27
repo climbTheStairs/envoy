@@ -7,12 +7,14 @@
 </head>
 <body>
 	<h1>Log in</h1>
+	{{range .Messages}}<p><b>{{.}}</b></p>
+	{{end -}}
 	<form method="post">
 		<label for="username">Username:</label>
-		<input id="username" type="text" name="username" required="required" />
+		<input id="username" type="text" name="username" maxlength="50" required="required" value="{{.Username}}" />
 		<br />
 		<label for="password">Password:</label>
-		<input id="password" type="password" name="password" required="required" />
+		<input id="password" type="password" name="password" minlength="4" required="required" />
 		<br />
 		<input type="submit" value="Log in" />
 	</form>
