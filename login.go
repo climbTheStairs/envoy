@@ -1,10 +1,18 @@
 package main
 
 import (
+	"crypto/md5"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 )
+
+func md5sum(s string) string {
+	h := md5.New()
+	fmt.Fprint(h, s)
+	return fmt.Sprintf("%x", h.Sum(nil))
+}
 
 func register(w http.ResponseWriter, r *http.Request, info *sessionInfo) {
 	username := r.FormValue("username")
@@ -36,7 +44,7 @@ func register(w http.ResponseWriter, r *http.Request, info *sessionInfo) {
 		return
 	}
 		
-	accounts[username] = password
+	accounts[username] = md5sum(password)
 	http.Redirect(w, r, "/login", http.StatusFound)
 }
 
@@ -109,5 +117,5 @@ func verifyUsername(username string) bool {
 func verifyPassword(username, password string) bool {
 	// verifyPassword automatically verifies username as well
 	correctPassword, ok := accounts[username]
-	return ok && password == correctPassword
+	return ok && md5sum(password) == correctPassword
 }
