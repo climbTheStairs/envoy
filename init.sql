@@ -1,0 +1,76 @@
+PRAGMA foreign_key = ON;
+
+CREATE TABLE user(
+	id	INTEGER,
+	username	TEXT UNIQUE NOT NULL,
+	password	TEXT NOT NULL,
+	profile	TEXT NOT NULL,
+	PRIMARY KEY(id)
+) STRICT;
+
+CREATE TABLE team(
+	id	INTEGER,
+	name	TEXT NOT NULL,
+	PRIMARY KEY(id)
+) STRICT;
+
+CREATE TABLE assignment(
+	id	INTEGER,
+	team	INTEGER NOT NULL,
+	name	TEXT NOT NULL,
+	assigned	INTEGER NOT NULL,
+	due	INTEGER NOT NULL,
+	details	TEXT NOT NULL,
+	files	TEXT NOT NULL,
+	out_of	INTEGER NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(team) REFERENCES team(id)
+) STRICT;
+
+CREATE TABLE file(
+	id	INTEGER,
+	user	INTEGER NOT NULL,
+	team	INTEGER NOT NULL,
+	name	TEXT NOT NULL,
+	uploaded	INTEGER NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(user) REFERENCES user(id),
+	FOREIGN KEY(team) REFERENCES team(id)
+) STRICT;
+
+CREATE TABLE post(
+	id	INTEGER,
+	user	INTEGER NOT NULL,
+	team	INTEGER NOT NULL,
+	parent	INTEGER,
+	subject	TEXT NOT NULL,
+	content	TEXT NOT NULL,
+	date	INTEGER NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(user) REFERENCES user(id),
+	FOREIGN KEY(team) REFERENCES team(id),
+	FOREIGN KEY(parent) REFERENCES post(id)
+) STRICT;
+
+CREATE TABLE member(
+	user	INTEGER,
+	team	INTEGER,
+	admin	INTEGER NOT NULL,
+	PRIMARY KEY(user, team),
+	FOREIGN KEY(user) REFERENCES user(id),
+	FOREIGN KEY(team) REFERENCES team(id)
+) STRICT;
+
+CREATE TABLE submission(
+	user	INTEGER,
+	assignment	INTEGER,
+	submitted	INTEGER NOT NULL,
+	graded	INTEGER NOT NULL,
+	files	TEXT NOT NULL,
+	feedback	TEXT NOT NULL,
+	grade	INTEGER NOT NULL,
+	PRIMARY KEY(user, assignment),
+	FOREIGN KEY(user) REFERENCES user(id),
+	FOREIGN KEY(assignment) REFERENCES assignment(ID)
+) STRICT;
+
