@@ -30,10 +30,6 @@ func register(w http.ResponseWriter, r *http.Request, info *sessionInfo) {
 		info.Messages = append(info.Messages,
 			`User "` + username + `" already exists`)
 	}
-	if len(password) < 4 {
-		info.Messages = append(info.Messages,
-			"Your password must be at least 4 characters long")
-	}
 	if password != confirmPassword {
 		info.Messages = append(info.Messages,
 			"Passwords do not match")
