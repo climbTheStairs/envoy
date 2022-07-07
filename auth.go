@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/md5"
-	"errors"
 	"net/http"
 	"time"
 )
@@ -87,11 +86,11 @@ func logout(w http.ResponseWriter, r *http.Request) {
 func verifyUserAndGetUsername(r *http.Request) string {
 	// The only error that r.Cookie can return is http.ErrNoCookie
 	usernameCookie, err := r.Cookie("username")
-	if errors.Is(err, http.ErrNoCookie) {
+	if err == http.ErrNoCookie {
 		return ""
 	}
 	passwordCookie, err := r.Cookie("password")
-	if errors.Is(err, http.ErrNoCookie) {
+	if err == http.ErrNoCookie {
 		return ""
 	}
 	username := usernameCookie.Value

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"html/template"
 	"log"
 	"net/http"
@@ -32,7 +31,7 @@ func servePage(w http.ResponseWriter, r *http.Request, info *sessionInfo) {
 
 func serveFile(w http.ResponseWriter, r *http.Request, info *sessionInfo) {
 	f, err := os.ReadFile("share/srv/" + info.File)
-	if errors.Is(err, os.ErrNotExist) {
+	if err == os.ErrNotExist {
 		sendError(w, http.StatusNotFound, r.RequestURI)
 		return
 	}
