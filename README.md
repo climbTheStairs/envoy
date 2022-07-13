@@ -8,18 +8,19 @@ It should be able to serve as an alternative to Teams,
 but simpler, more lightweight,
 and with a user interface that is friendlier and more intuitive.
 
-This is my high school capstone project. 
+This started as my high school capstone project. 
 
 ## Features
 
 - User accounts
 - Team creation and management
+- Assignments
 - ...
 
 ## Non-features
 
-Due to time constraints,
-I am currently unable to implement *all* of Teams's features.
+Due to time and skill constraints,
+I do not plan to implement these features:
 
 - Security
 - Voice or video calls
